@@ -38,9 +38,12 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f4xx_hal.h"
+#include "dma2d.h"
+#include "i2c.h"
 #include "ltdc.h"
 #include "spi.h"
 #include "gpio.h"
+#include "fmc.h"
 
 /* USER CODE BEGIN Includes */
 
@@ -93,6 +96,9 @@ int main(void)
   MX_LTDC_Init();
   MX_SPI4_Init();
   MX_SPI5_Init();
+  MX_FMC_Init();
+  MX_I2C3_Init();
+  MX_DMA2D_Init();
 
   /* USER CODE BEGIN 2 */
 

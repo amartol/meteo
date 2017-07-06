@@ -1,10 +1,14 @@
 /**
   ******************************************************************************
-  * @file    stm32f4xx_it.c
-  * @brief   Interrupt Service Routines.
+  * @file    fonts.h
+  * @author  MCD Application Team
+  * @version V1.0.0
+  * @date    18-February-2014
+  * @brief   Header for fonts.c file
   ******************************************************************************
+  * @attention
   *
-  * COPYRIGHT(c) 2017 STMicroelectronics
+  * <h2><center>&copy; COPYRIGHT(c) 2014 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -30,59 +34,101 @@
   *
   ******************************************************************************
   */
+
+/* Define to prevent recursive inclusion -------------------------------------*/
+#ifndef __FONTS_H
+#define __FONTS_H
+
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx_hal.h"
-#include "stm32f4xx.h"
-#include "stm32f4xx_it.h"
+#include <stdint.h>
 
-/* USER CODE BEGIN 0 */
+/** @addtogroup Utilities
+  * @{
+  */
+  
+/** @addtogroup STM32_EVAL
+  * @{
+  */ 
 
-/* USER CODE END 0 */
+/** @addtogroup Common
+  * @{
+  */
 
-/* External variables --------------------------------------------------------*/
-extern SDRAM_HandleTypeDef hsdram1;
+/** @addtogroup FONTS
+  * @{
+  */ 
 
-/******************************************************************************/
-/*            Cortex-M4 Processor Interruption and Exception Handlers         */ 
-/******************************************************************************/
+/** @defgroup FONTS_Exported_Types
+  * @{
+  */ 
+typedef struct _tFont
+{    
+  const uint8_t *table;
+  uint16_t Width;
+  uint16_t Height;
+  
+} sFONT;
+
+extern sFONT Font24;
+extern sFONT Font20;
+extern sFONT Font16;
+extern sFONT Font12;
+extern sFONT Font8;
+/**
+  * @}
+  */ 
+
+/** @defgroup FONTS_Exported_Constants
+  * @{
+  */ 
+#define LINE(x) ((x) * (((sFONT *)BSP_LCD_GetFont())->Height))
 
 /**
-* @brief This function handles System tick timer.
-*/
-void SysTick_Handler(void)
-{
-  /* USER CODE BEGIN SysTick_IRQn 0 */
+  * @}
+  */ 
 
-  /* USER CODE END SysTick_IRQn 0 */
-  HAL_IncTick();
-  HAL_SYSTICK_IRQHandler();
-  /* USER CODE BEGIN SysTick_IRQn 1 */
+/** @defgroup FONTS_Exported_Macros
+  * @{
+  */ 
+/**
+  * @}
+  */ 
 
-  /* USER CODE END SysTick_IRQn 1 */
+/** @defgroup FONTS_Exported_Functions
+  * @{
+  */ 
+/**
+  * @}
+  */
+
+#ifdef __cplusplus
 }
-
-/******************************************************************************/
-/* STM32F4xx Peripheral Interrupt Handlers                                    */
-/* Add here the Interrupt Handlers for the used peripherals.                  */
-/* For the available peripheral interrupt handler names,                      */
-/* please refer to the startup file (startup_stm32f4xx.s).                    */
-/******************************************************************************/
+#endif
+  
+#endif /* __FONTS_H */
+ 
+/**
+  * @}
+  */
 
 /**
-* @brief This function handles FMC global interrupt.
-*/
-void FMC_IRQHandler(void)
-{
-  /* USER CODE BEGIN FMC_IRQn 0 */
+  * @}
+  */ 
 
-  /* USER CODE END FMC_IRQn 0 */
-  HAL_SDRAM_IRQHandler(&hsdram1);
-  /* USER CODE BEGIN FMC_IRQn 1 */
+/**
+  * @}
+  */
 
-  /* USER CODE END FMC_IRQn 1 */
-}
+/**
+  * @}
+  */
 
-/* USER CODE BEGIN 1 */
+/**
+  * @}
+  */      
 
-/* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
