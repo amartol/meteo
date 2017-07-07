@@ -162,8 +162,8 @@ void              BSP_SDRAM_DMA_IRQHandler(void);
 
 /* These function can be modified in case the current settings (e.g. DMA stream)
    need to be changed for specific application needs */
-void    BSP_SDRAM_MspInit(SDRAM_HandleTypeDef  *hsdram, void *Params);
-void    BSP_SDRAM_MspDeInit(SDRAM_HandleTypeDef  *hsdram, void *Params);
+//void    BSP_SDRAM_MspInit(SDRAM_HandleTypeDef  *hsdram, void *Params);
+//void    BSP_SDRAM_MspDeInit(SDRAM_HandleTypeDef  *hsdram, void *Params);
 
 /**
   * @}

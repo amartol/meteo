@@ -46,7 +46,9 @@
 #include "fmc.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "stm32f429i_discovery.h"
+#include "stm32f429i_discovery_lcd.h"
+#include "lcd_log.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -61,7 +63,7 @@ void SystemClock_Config(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-
+static void LCD_Config(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -93,7 +95,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_LTDC_Init();
+ // MX_LTDC_Init();
   MX_SPI4_Init();
   MX_SPI5_Init();
   MX_FMC_Init();
@@ -101,7 +103,7 @@ int main(void)
   MX_DMA2D_Init();
 
   /* USER CODE BEGIN 2 */
-
+  LCD_Config();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -183,6 +185,27 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+static void LCD_Config(void)
+{
+  /* LCD Initialization */
+  BSP_LCD_Init();
+
+  /* LCD Layers Initialization */
+  BSP_LCD_LayerDefaultInit(LCD_FOREGROUND_LAYER, (LCD_FRAME_BUFFER + BUFFER_OFFSET));
+
+  /* Configure the transparency for foreground : Increase the transparency */
+  BSP_LCD_SetTransparency(LCD_BACKGROUND_LAYER, 0);
+  BSP_LCD_SelectLayer(LCD_FOREGROUND_LAYER);
+
+  /* LCD Log initialization */
+
+  LCD_LOG_Init();
+
+  //LCD_LOG_SetHeader((uint8_t *)"LTDC Application");
+  LCD_UsrLog("> Meteo application started.\n");
+ // LCD_LOG_SetFooter ((uint8_t *)"     USB Host Library V3.2.0" );
+
+}
 
 /* USER CODE END 4 */
 
