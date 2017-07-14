@@ -52,7 +52,9 @@
 **************************************************************************/
 
 #include "bme280.h"
+
 static struct bme280_t *p_bme280; /**< pointer to BME280 */
+
 
 /*!
  *	@brief This function is used for initialize
@@ -74,15 +76,15 @@ static struct bme280_t *p_bme280; /**< pointer to BME280 */
  *
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
 BME280_RETURN_FUNCTION_TYPE bme280_init(struct bme280_t *bme280)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	u8 v_data_u8 = BME280_INIT_VALUE;
 	u8 v_chip_id_read_count = BME280_CHIP_ID_READ_COUNT;
 
@@ -127,8 +129,8 @@ BME280_RETURN_FUNCTION_TYPE bme280_init(struct bme280_t *bme280)
  *
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
@@ -136,7 +138,7 @@ BME280_RETURN_FUNCTION_TYPE bme280_read_uncomp_temperature(
 s32 *v_uncomp_temperature_s32)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	/* Array holding the MSB and LSb value
 	a_data_u8r[0] - Temperature MSB
 	a_data_u8r[1] - Temperature LSB
@@ -246,8 +248,8 @@ s32 v_uncomp_temperature_s32)
  *
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
@@ -255,7 +257,7 @@ BME280_RETURN_FUNCTION_TYPE bme280_read_uncomp_pressure(
 s32 *v_uncomp_pressure_s32)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	/* Array holding the MSB and LSb value
 	a_data_u8[0] - Pressure MSB
 	a_data_u8[1] - Pressure LSB
@@ -381,8 +383,8 @@ u32 bme280_compensate_pressure_int32(s32 v_uncomp_pressure_s32)
  *
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
@@ -390,7 +392,7 @@ BME280_RETURN_FUNCTION_TYPE bme280_read_uncomp_humidity(
 s32 *v_uncomp_humidity_s32)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	/* Array holding the MSB and LSb value
 	a_data_u8[0] - Humidity MSB
 	a_data_u8[1] - Humidity LSB
@@ -495,8 +497,8 @@ s32 v_uncomp_humidity_s32)
  *
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
@@ -505,7 +507,7 @@ s32 *v_uncomp_pressure_s32,
 s32 *v_uncomp_temperature_s32, s32 *v_uncomp_humidity_s32)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	/* Array holding the MSB and LSb value of
 	a_data_u8[0] - Pressure MSB
 	a_data_u8[1] - Pressure LSB
@@ -575,8 +577,8 @@ s32 *v_uncomp_temperature_s32, s32 *v_uncomp_humidity_s32)
  *
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
@@ -584,7 +586,7 @@ BME280_RETURN_FUNCTION_TYPE bme280_read_pressure_temperature_humidity(
 u32 *v_pressure_u32, s32 *v_temperature_s32, u32 *v_humidity_u32)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	s32 v_uncomp_pressure_s32 = BME280_INIT_VALUE;
 	s32 v_uncom_temperature_s32 = BME280_INIT_VALUE;
 	s32 v_uncom_humidity_s32 = BME280_INIT_VALUE;
@@ -635,15 +637,15 @@ u32 *v_pressure_u32, s32 *v_temperature_s32, u32 *v_humidity_u32)
  *	dig_H6    |         0xE7     | from 0 to 7
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
 BME280_RETURN_FUNCTION_TYPE bme280_get_calib_param(void)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	u8 a_data_u8[BME280_CALIB_DATA_SIZE] = {
 	BME280_INIT_VALUE, BME280_INIT_VALUE,
 	BME280_INIT_VALUE, BME280_INIT_VALUE, BME280_INIT_VALUE,
@@ -775,8 +777,8 @@ BME280_RETURN_FUNCTION_TYPE bme280_get_calib_param(void)
  *
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
@@ -784,7 +786,7 @@ BME280_RETURN_FUNCTION_TYPE bme280_get_oversamp_temperature(
 u8 *v_value_u8)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	u8 v_data_u8 = BME280_INIT_VALUE;
 	/* check the p_bme280 structure pointer as NULL*/
 	if (p_bme280 == BME280_NULL) {
@@ -821,8 +823,8 @@ u8 *v_value_u8)
  *
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
@@ -830,7 +832,7 @@ BME280_RETURN_FUNCTION_TYPE bme280_set_oversamp_temperature(
 u8 v_value_u8)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	u8 v_data_u8 = BME280_INIT_VALUE;
 	u8 v_prev_pow_mode_u8 = BME280_INIT_VALUE;
 	u8 v_pre_ctrl_hum_value_u8 = BME280_INIT_VALUE;
@@ -913,8 +915,8 @@ u8 v_value_u8)
  *
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
@@ -922,7 +924,7 @@ BME280_RETURN_FUNCTION_TYPE bme280_get_oversamp_pressure(
 u8 *v_value_u8)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	u8 v_data_u8 = BME280_INIT_VALUE;
 	/* check the p_bme280 structure pointer as NULL*/
 	if (p_bme280 == BME280_NULL) {
@@ -960,8 +962,8 @@ u8 *v_value_u8)
  *
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
@@ -969,7 +971,7 @@ BME280_RETURN_FUNCTION_TYPE bme280_set_oversamp_pressure(
 u8 v_value_u8)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	u8 v_data_u8 = BME280_INIT_VALUE;
 	u8 v_prev_pow_mode_u8 = BME280_INIT_VALUE;
 	u8 v_pre_ctrl_hum_value_u8 = BME280_INIT_VALUE;
@@ -1052,8 +1054,8 @@ u8 v_value_u8)
  *
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
@@ -1061,7 +1063,7 @@ BME280_RETURN_FUNCTION_TYPE bme280_get_oversamp_humidity(
 u8 *v_value_u8)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	u8 v_data_u8 = BME280_INIT_VALUE;
 	/* check the p_bme280 structure pointer as NULL*/
 	if (p_bme280 == BME280_NULL) {
@@ -1113,8 +1115,8 @@ u8 *v_value_u8)
  *
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
@@ -1122,7 +1124,7 @@ BME280_RETURN_FUNCTION_TYPE bme280_set_oversamp_humidity(
 u8 v_value_u8)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	u8 v_data_u8 = BME280_INIT_VALUE;
 	u8 pre_ctrl_meas_value = BME280_INIT_VALUE;
 	u8 v_pre_config_value_u8 = BME280_INIT_VALUE;
@@ -1205,15 +1207,15 @@ u8 v_value_u8)
  *	0x03            | BME280_NORMAL_MODE
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
 BME280_RETURN_FUNCTION_TYPE bme280_get_power_mode(u8 *v_power_mode_u8)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	u8 v_mode_u8r = BME280_INIT_VALUE;
 	/* check the p_bme280 structure pointer as NULL*/
 	if (p_bme280 == BME280_NULL) {
@@ -1242,15 +1244,15 @@ BME280_RETURN_FUNCTION_TYPE bme280_get_power_mode(u8 *v_power_mode_u8)
  *	0x03            | BME280_NORMAL_MODE
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
 BME280_RETURN_FUNCTION_TYPE bme280_set_power_mode(u8 v_power_mode_u8)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	u8 v_mode_u8r = BME280_INIT_VALUE;
 	u8 v_prev_pow_mode_u8 = BME280_INIT_VALUE;
 	u8 v_pre_ctrl_hum_value_u8 = BME280_INIT_VALUE;
@@ -1332,15 +1334,15 @@ BME280_RETURN_FUNCTION_TYPE bme280_set_power_mode(u8 v_power_mode_u8)
  *
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
 BME280_RETURN_FUNCTION_TYPE bme280_set_soft_rst(void)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	u8 v_data_u8 = BME280_SOFT_RESET_CODE;
 	/* check the p_bme280 structure pointer as NULL*/
 	if (p_bme280 == BME280_NULL) {
@@ -1368,15 +1370,15 @@ BME280_RETURN_FUNCTION_TYPE bme280_set_soft_rst(void)
  *
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
 BME280_RETURN_FUNCTION_TYPE bme280_get_spi3(u8 *v_enable_disable_u8)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	u8 v_data_u8 = BME280_INIT_VALUE;
 	/* check the p_bme280 structure pointer as NULL*/
 	if (p_bme280 == BME280_NULL) {
@@ -1407,15 +1409,15 @@ BME280_RETURN_FUNCTION_TYPE bme280_get_spi3(u8 *v_enable_disable_u8)
  *
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
 BME280_RETURN_FUNCTION_TYPE bme280_set_spi3(u8 v_enable_disable_u8)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	u8 v_data_u8 = BME280_INIT_VALUE;
 	u8 pre_ctrl_meas_value = BME280_INIT_VALUE;
 	u8 v_prev_pow_mode_u8 = BME280_INIT_VALUE;
@@ -1495,15 +1497,15 @@ BME280_RETURN_FUNCTION_TYPE bme280_set_spi3(u8 v_enable_disable_u8)
  *	0x04        | BME280_FILTER_COEFF_16
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
 BME280_RETURN_FUNCTION_TYPE bme280_get_filter(u8 *v_value_u8)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	u8 v_data_u8 = BME280_INIT_VALUE;
 	/* check the p_bme280 structure pointer as NULL*/
 	if (p_bme280 == BME280_NULL) {
@@ -1535,15 +1537,15 @@ BME280_RETURN_FUNCTION_TYPE bme280_get_filter(u8 *v_value_u8)
  *	0x04        | BME280_FILTER_COEFF_16
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
 BME280_RETURN_FUNCTION_TYPE bme280_set_filter(u8 v_value_u8)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	u8 v_data_u8 = BME280_INIT_VALUE;
 	u8 pre_ctrl_meas_value = BME280_INIT_VALUE;
 	u8 v_prev_pow_mode_u8 = BME280_INIT_VALUE;
@@ -1622,15 +1624,15 @@ BME280_RETURN_FUNCTION_TYPE bme280_set_filter(u8 v_value_u8)
  *
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
 BME280_RETURN_FUNCTION_TYPE bme280_get_standby_durn(u8 *v_standby_durn_u8)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	u8 v_data_u8 = BME280_INIT_VALUE;
 	/* check the p_bme280 structure pointer as NULL*/
 	if (p_bme280 == BME280_NULL) {
@@ -1673,15 +1675,15 @@ BME280_RETURN_FUNCTION_TYPE bme280_get_standby_durn(u8 *v_standby_durn_u8)
  *
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
 BME280_RETURN_FUNCTION_TYPE bme280_set_standby_durn(u8 v_standby_durn_u8)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	u8 v_data_u8 = BME280_INIT_VALUE;
 	u8 pre_ctrl_meas_value = BME280_INIT_VALUE;
 	u8 v_prev_pow_mode_u8 = BME280_INIT_VALUE;
@@ -1758,14 +1760,14 @@ BME280_RETURN_FUNCTION_TYPE bme280_set_standby_durn(u8 v_standby_durn_u8)
  *   4       | BME280_ULTRAHIGHRESOLUTION_MODE
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
 /*BME280_RETURN_FUNCTION_TYPE bme280_set_work_mode(u8 v_work_mode_u8)
 {
-BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 u8 v_data_u8 = BME280_INIT_VALUE;
 if (p_bme280 == BME280_NULL) {
 	return E_BME280_NULL_PTR;
@@ -1774,7 +1776,7 @@ if (p_bme280 == BME280_NULL) {
 		com_rslt = p_bme280->BME280_BUS_READ_FUNC(
 			p_bme280->dev_addr,	BME280_CTRL_MEAS_REG,
 			&v_data_u8, BME280_GEN_READ_WRITE_DATA_LENGTH);
-		if (com_rslt == SUCCESS) {
+		if (com_rslt == SUCCESS_BME280) {
 			switch (v_work_mode_u8) {
 			case BME280_ULTRALOWPOWER_MODE:
 				p_bme280->oversamp_temperature =
@@ -1832,8 +1834,8 @@ return com_rslt;
  *
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
 */
@@ -1843,7 +1845,7 @@ s32 *v_uncom_pressure_s32,
 s32 *v_uncom_temperature_s32, s32 *v_uncom_humidity_s32)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	u8 v_data_u8 = BME280_INIT_VALUE;
 	u8 v_waittime_u8 = BME280_INIT_VALUE;
 	u8 v_prev_pow_mode_u8 = BME280_INIT_VALUE;
@@ -1933,8 +1935,8 @@ s32 *v_uncom_temperature_s32, s32 *v_uncom_humidity_s32)
  *
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
  */
@@ -1942,7 +1944,7 @@ BME280_RETURN_FUNCTION_TYPE bme280_write_register(u8 v_addr_u8,
 u8 *v_data_u8, u8 v_len_u8)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	/* check the p_bme280 structure pointer as NULL*/
 	if (p_bme280 == BME280_NULL) {
 		return E_BME280_NULL_PTR;
@@ -1965,8 +1967,8 @@ u8 *v_data_u8, u8 v_len_u8)
  *
  *
  *	@return results of bus communication function
- *	@retval 0 -> Success
- *	@retval -1 -> Error
+ *	@retval 0 -> SUCCESS_BME280
+ *	@retval -1 -> ERROR_BME280
  *
  *
  */
@@ -1974,7 +1976,7 @@ BME280_RETURN_FUNCTION_TYPE bme280_read_register(u8 v_addr_u8,
 u8 *v_data_u8, u8 v_len_u8)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = ERROR_BME280;
 	/* check the p_bme280 structure pointer as NULL*/
 	if (p_bme280 == BME280_NULL) {
 		return E_BME280_NULL_PTR;
@@ -2206,7 +2208,7 @@ s32 v_uncom_pressure_s32)
  *  @param v_delaytime_u8 : The value of delay time for force mode
  *
  *
- *	@retval 0 -> Success
+ *	@retval 0 -> SUCCESS_BME280
  *
  *
  */
@@ -2214,7 +2216,7 @@ BME280_RETURN_FUNCTION_TYPE bme280_compute_wait_time(u8
 *v_delaytime_u8)
 {
 	/* used to return the communication result*/
-	BME280_RETURN_FUNCTION_TYPE com_rslt = SUCCESS;
+	BME280_RETURN_FUNCTION_TYPE com_rslt = SUCCESS_BME280;
 
 	*v_delaytime_u8 = (T_INIT_MAX +
 	T_MEASURE_PER_OSRS_MAX *

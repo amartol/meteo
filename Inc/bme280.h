@@ -406,7 +406,7 @@ BME280_BUS_RD_PARAM_TYPE to function calls used inside the API
 
 /* never change this line */
 #define BME280_BUS_READ_FUNC(device_addr, register_addr,\
-		register_data, rd_len)bus_read(device_addr, register_addr,\
+		register_data, rd_len) bus_read(device_addr, register_addr,\
 		register_data, rd_len)
 /****************************************/
 /**\name	DELAY       */
@@ -476,11 +476,11 @@ BME280_BUS_RD_PARAM_TYPE to function calls used inside the API
 /****************************************************/
 /**\name	ERROR CODE DEFINITIONS  */
 /***************************************************/
-#define	SUCCESS					((u8)0)
+#define	SUCCESS_BME280			((u8)0)
 #define E_BME280_NULL_PTR       ((s8)-127)
 #define E_BME280_COMM_RES       ((s8)-1)
 #define E_BME280_OUT_OF_RANGE   ((s8)-2)
-#define ERROR					((s8)-1)
+#define ERROR_BME280			((s8)-1)
 #define BME280_CHIP_ID_READ_FAIL	((s8)-1)
 #define BME280_CHIP_ID_READ_SUCCESS	((u8)0)
 
@@ -492,8 +492,8 @@ BME280_BUS_RD_PARAM_TYPE to function calls used inside the API
 /****************************************************/
 /**\name	I2C ADDRESS DEFINITIONS  */
 /***************************************************/
-#define BME280_I2C_ADDRESS1                  (0x76)
-#define BME280_I2C_ADDRESS2                  (0x77)
+#define BME280_I2C_ADDRESS1                  (0xEC)
+#define BME280_I2C_ADDRESS2                  (0xED)
 /****************************************************/
 /**\name	POWER MODE DEFINITIONS  */
 /***************************************************/

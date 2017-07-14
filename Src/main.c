@@ -49,13 +49,14 @@
 #include "stm32f429i_discovery.h"
 #include "stm32f429i_discovery_lcd.h"
 #include "lcd_log.h"
+#include "bme280.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-
+  struct bme280_t sensor;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -64,6 +65,11 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
 static void LCD_Config(void);
+uint8_t* Hex2str(uint32_t*, uint32_t, uint8_t*);
+
+
+
+
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -104,6 +110,71 @@ int main(void)
 
   /* USER CODE BEGIN 2 */
   LCD_Config();
+
+  BSP_LCD_SetFont (&LCD_LOG_TEXT_FONT);
+  uint8_t array[50]={0};
+  uint8_t outbuf[50]={0};
+
+
+  /* The variable used to assign the standby time*/
+  	u8 v_stand_by_time_u8 = BME280_INIT_VALUE;
+  	/* The variable used to read uncompensated temperature*/
+  	s32 v_data_uncomp_temp_s32 = BME280_INIT_VALUE;
+  	/* The variable used to read uncompensated pressure*/
+  	s32 v_data_uncomp_pres_s32 = BME280_INIT_VALUE;
+  	/* The variable used to read uncompensated pressure*/
+  	s32 v_data_uncomp_hum_s32 = BME280_INIT_VALUE;
+  	/* The variable used to read compensated temperature*/
+  	s32 v_comp_temp_s32[2] = {BME280_INIT_VALUE, BME280_INIT_VALUE};
+  	/* The variable used to read compensated pressure*/
+  	u32 v_comp_press_u32[2] = {BME280_INIT_VALUE, BME280_INIT_VALUE};
+  	/* The variable used to read compensated humidity*/
+  	u32 v_comp_humidity_u32[2] = {BME280_INIT_VALUE, BME280_INIT_VALUE};
+
+
+
+  BME280_RETURN_FUNCTION_TYPE ret_rslt = ERROR_BME280;
+
+/*
+  sensor.bus_write = BME280_I2C_bus_write;
+  sensor.bus_read = BME280_I2C_bus_read;
+  sensor.dev_addr = BME280_I2C_ADDRESS1;
+  sensor.delay_msec = BME280_delay_msek;
+*/
+  ret_rslt = I2C_routine(&sensor);
+  ret_rslt += bme280_init(&sensor);
+  /*
+  uint32_t id=sensor.chip_id;
+  Hex2str((&id), 1, outbuf);
+  BSP_LCD_DisplayStringAt(0, 80, outbuf, LEFT_MODE);
+  *outbuf='/0';
+*/
+  ret_rslt += bme280_set_power_mode(BME280_NORMAL_MODE);
+  ret_rslt += bme280_set_oversamp_humidity(BME280_OVERSAMP_1X);
+  ret_rslt += bme280_set_oversamp_pressure(BME280_OVERSAMP_1X);
+  ret_rslt += bme280_set_oversamp_temperature(BME280_OVERSAMP_1X);
+
+  ret_rslt += bme280_set_standby_durn(BME280_STANDBY_TIME_1_MS);
+  ret_rslt += bme280_get_standby_durn(&v_stand_by_time_u8);
+
+
+
+
+
+
+/*
+  HAL_I2C_Mem_Read(&hi2c3, (uint16_t) 0xec, (uint16_t) BME280_HUMIDITY_MSB_REG, I2C_MEMADD_SIZE_8BIT, &array[0], 1, 100) ;
+  HAL_I2C_Mem_Read(&hi2c3, (uint16_t) 0xec, (uint16_t) BME280_HUMIDITY_LSB_REG, I2C_MEMADD_SIZE_8BIT, &array[1], 1, 100) ;
+ // BME280_I2C_bus_read(0xec,0xd0,array,1);
+  Hex2str((uint8_t*)&array[0], 1, outbuf);
+   BSP_LCD_DisplayStringAt(0, 0, outbuf, LEFT_MODE);
+   Hex2str((uint8_t*)&array[1], 1, outbuf);
+    BSP_LCD_DisplayStringAt(0, 20, outbuf, LEFT_MODE);
+
+
+*/
+  if (!ret_rslt) //all ok
+	  BSP_LED_On(LED3);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -113,7 +184,42 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
+	  ret_rslt += bme280_read_uncomp_temperature(&v_data_uncomp_temp_s32);
+	     ret_rslt += bme280_read_uncomp_pressure(&v_data_uncomp_pres_s32);
+	    	ret_rslt += bme280_read_uncomp_humidity(&v_data_uncomp_hum_s32);
+	   	ret_rslt += bme280_read_uncomp_pressure_temperature_humidity(
+	    	&v_data_uncomp_temp_s32, &v_data_uncomp_pres_s32, &v_data_uncomp_hum_s32);
 
+
+	   	v_comp_temp_s32[0] = bme280_compensate_temperature_int32(
+	   				v_data_uncomp_temp_s32);
+	   		v_comp_press_u32[0] = bme280_compensate_pressure_int32(
+	   				v_data_uncomp_pres_s32);
+	   		v_comp_humidity_u32[0] = bme280_compensate_humidity_int32(
+	   				v_data_uncomp_hum_s32);
+	   		ret_rslt += bme280_read_pressure_temperature_humidity(
+	   		&v_comp_press_u32[1], &v_comp_temp_s32[1],  &v_comp_humidity_u32[1]);
+
+
+	   	LCD_LOG_ClearTextZone();
+	   	/*
+	    Hex2str((uint32_t*)&v_comp_temp_s32[1], 1, outbuf);
+	    BSP_LCD_DisplayStringAt(0, 0, outbuf, LEFT_MODE);
+
+	    Hex2str((uint32_t*)&v_comp_press_u32[1], 1, outbuf);
+	     BSP_LCD_DisplayStringAt(0, 20, outbuf, LEFT_MODE);
+
+	     Hex2str((uint32_t*)&v_comp_humidity_u32[1], 1, outbuf);
+	      BSP_LCD_DisplayStringAt(0, 40, outbuf, LEFT_MODE);
+*/
+	    sprintf(outbuf,"t=%+ld C",v_comp_temp_s32[1]);
+        BSP_LCD_DisplayStringAt(0, 0, outbuf, LEFT_MODE);
+	    sprintf(outbuf,"p=%-.3ld mm Hg",v_comp_press_u32[1]*75/1000);
+        BSP_LCD_DisplayStringAt(0, 20, outbuf, LEFT_MODE);
+	    sprintf(outbuf,"h=%ld %%",v_comp_humidity_u32[1]);
+        BSP_LCD_DisplayStringAt(0, 40, outbuf, LEFT_MODE);
+
+	      HAL_Delay(1000);
   }
   /* USER CODE END 3 */
 
@@ -141,10 +247,17 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM = 4;
-  RCC_OscInitStruct.PLL.PLLN = 168;
+  RCC_OscInitStruct.PLL.PLLN = 180;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = 7;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+    /**Activate the Over-Drive mode 
+    */
+  if (HAL_PWREx_EnableOverDrive() != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
@@ -164,8 +277,8 @@ void SystemClock_Config(void)
   }
 
   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_LTDC;
-  PeriphClkInitStruct.PLLSAI.PLLSAIN = 54;
-  PeriphClkInitStruct.PLLSAI.PLLSAIR = 3;
+  PeriphClkInitStruct.PLLSAI.PLLSAIN = 60;
+  PeriphClkInitStruct.PLLSAI.PLLSAIR = 5;
   PeriphClkInitStruct.PLLSAIDivR = RCC_PLLSAIDIVR_4;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
   {
@@ -201,11 +314,43 @@ static void LCD_Config(void)
 
   LCD_LOG_Init();
 
-  //LCD_LOG_SetHeader((uint8_t *)"LTDC Application");
-  LCD_UsrLog("> Meteo application started.\n");
- // LCD_LOG_SetFooter ((uint8_t *)"     USB Host Library V3.2.0" );
+ // LCD_LOG_SetHeader((uint8_t *)"meteo Application");
+
+
+  LCD_LOG_SetFooter ((uint8_t *)"     Meteo Application" );
 
 }
+
+//____________________________________________________________________________/
+uint8_t* Hex2str(uint32_t* inarr, uint32_t size, uint8_t* out)
+{
+	uint8_t symbol_count = 2*sizeof(*inarr);
+
+	for(uint32_t i=0; i < size; i++)
+	{
+		for(int8_t j = symbol_count-1, k = 0; j >= 0 ; j--, k++)
+		{
+			uint32_t temp = 0;
+			temp = *(inarr+i) >> (4*j);
+			temp &= 0xf;
+			if(temp < 0xa)
+			{
+				*(out+i*symbol_count+k)= '0' + temp; 	  //numbers
+			}
+			else
+			{
+				*(out+i*symbol_count+k)= 'a' + (temp - 0xa); //letters
+			}
+
+		}
+	}
+	out[size*symbol_count]='\0';
+	return out;
+}
+
+
+
+
 
 /* USER CODE END 4 */
 
@@ -218,6 +363,8 @@ void _Error_Handler(char * file, int line)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
+	BSP_LED_On(LED3);
+	BSP_LED_On(LED4);
   while(1) 
   {
   }
